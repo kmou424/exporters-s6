@@ -28,3 +28,10 @@ post_download = "tar xzf {{DIST_FILE}}"
 install_bin = "node_exporter-{{VERSION}}.linux-amd64/node_exporter"
 args = "--web.listen-address={{LISTEN_HOST}}:19001"
 
+[[exporters]]
+name = "cadvisor"
+version = "0.49.1"
+dist_url = "https://github.com/google/cadvisor/releases/download/v{{VERSION}}/cadvisor-v{{VERSION}}-linux-amd64"
+post_download = ""
+install_bin = "cadvisor-v{{VERSION}}-linux-amd64"
+args = "-listen_ip={{LISTEN_HOST}} -port=19002"
