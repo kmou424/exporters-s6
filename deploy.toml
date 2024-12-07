@@ -1,0 +1,30 @@
+[deploy]
+listen_host = "localhost"
+root_dir = "./exporters"
+# relative to root_dir
+exporter_dir = "./{{NAME}}"
+# log_file are relative to the exporter_dir
+log_file = "./{{NAME}}.log"
+
+# constants
+# {{LISTEN_HOST}}: deploy.listen_host
+# {{ROOT_DIR}}: deploy.root_dir
+
+# variables of each exporter
+# {{NAME}}: exporter name
+# {{VERSION}}: exporter version
+# {{EXPORTER_DIR}}: deploy.exporter_dir
+# {{DIST_FILE}}: downloaded file name
+
+# when starting deployment of an exporter, download and post_download commands are executed in {{EXPORTER_DIR}}/tmp
+# after that, install_bin will be moved to {{EXPORTER_DIR}} with executable permission fixed
+# finally, the s6 run script will be generated in {{EXPORTER_DIR}}/run with the specified args
+
+[[exporters]]
+name = "node_exporter"
+version = "1.8.2"
+dist_url = "https://github.com/prometheus/node_exporter/releases/download/v{{VERSION}}/node_exporter-{{VERSION}}.linux-amd64.tar.gz"
+post_download = "tar xzf {{DIST_FILE}}"
+install_bin = "node_exporter-{{VERSION}}.linux-amd64/node_exporter"
+args = "--web.listen-address={{LISTEN_HOST}}:19001"
+
